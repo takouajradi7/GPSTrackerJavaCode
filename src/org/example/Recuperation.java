@@ -2,44 +2,32 @@ package org.example;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
+public class Recuperation {
 
+    public static void main(String[] args) throws IOException {
+        int port = 8080; // Le port sur lequel le serveur écoute
 
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Serveur en attente de connexion...");
 
+        while (true) {
+            Socket socket = serverSocket.accept();
+            System.out.println("Connexion acceptée : " + socket);
 
-	import java.io.BufferedReader;
-	import java.io.InputStreamReader;
-	import java.net.ServerSocket;
-	import java.net.Socket;
-	import java.io.BufferedReader;
-	import java.io.InputStreamReader;
-	import java.net.ServerSocket;
-	import java.net.Socket;
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String input;
+            while ((input = br.readLine()) != null) {
+                System.out.println("Données reçues : " + input);
+            }
 
-	public class Recuperation {
-
-	    public static void main(String[] args) {
-	        try {
-	            ServerSocket serverSocket = new ServerSocket(8080);
-	            System.out.println("Attente de la connexion du client...");
-	            Socket socket = serverSocket.accept();
-	            System.out.println("Connexion établie avec le client.");
-
-	            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	            String jsonData = bufferedReader.readLine();
-
-	            System.out.println("Données JSON reçues : " + jsonData);
-
-	            // ... complétez cette partie de code pour gérer le résultat de la requête
-	            // Vous pouvez utiliser la bibliothèque Jackson pour convertir la chaîne JSON en objets Java si nécessaire
-
-	            bufferedReader.close();
-	            socket.close();
-	            serverSocket.close();
-
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}
-
+            //socket.close();
+            System.out.println("Connexion fermée");
+            
+            
+        }
+    }
+}
